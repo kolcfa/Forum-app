@@ -1,0 +1,53 @@
+<%- include('header', { title: 'Advanced Filter' }) %>
+
+<div class="container my-5">
+  <h1 class="mb-4">Advanced Filter for Posts</h1>
+  
+  <form action="/posts/advanced-filter" method="POST" class="mb-4">
+    <div class="row">
+      <div class="col-md-5">
+        <label for="keyword" class="form-label">Search Keyword:</label>
+        <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter text to search in title/content">
+      </div>
+      <div class="col-md-5">
+        <label for="tag" class="form-label">Tag:</label>
+        <input type="text" class="form-control" id="tag" name="tag" placeholder="Exact tag">
+      </div>
+      <div class="col-md-2 align-self-end">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+      </div>
+    </div>
+  </form>
+  
+  <% if (aggregatedResults) { %>
+    <h2>Aggregation Results (Tag Counts)</h2>
+    <ul class="list-group mb-4">
+      <% aggregatedResults.forEach(function(result) { %>
+        <li class="list-group-item">
+          Tag: <strong><%= result.tag %></strong> - Count: <%= result.count %>
+        </li>
+      <% }); %>
+    </ul>
+  <% } %>
+
+  <% if (bulkResult) { %>
+    <div class="alert alert-info">
+      Bulk update modified <strong><%= bulkResult.modifiedCount %></strong> post(s).
+    </div>
+  <% } %>
+  
+  <h2>Filtered Posts</h2>
+  <% if (posts.length === 0) { %>
+    <p>No posts found with the given filters.</p>
+  <% } else { %>
+    <ul class="list-group">
+      <% posts.forEach(function(post) { %>
+        <li class="list-group-item">
+          <a href="/posts/<%= post._id %>"><strong><%= post.title %></strong></a>
+          <br>
+          <small>By <%= post.author.name %> on <%= post.createdAt.toDateString() %></small>
+        </li>
+      <% }); %>
+    </ul>
+  <% } %>
+</div>

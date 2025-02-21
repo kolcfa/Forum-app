@@ -1,0 +1,40 @@
+<%- include('header', { title: edit ? 'Edit Profile' : 'Profile' }) %>
+
+<div class="container my-5">
+  <% if (edit) { %>
+    <h1 class="mb-4">Edit Profile</h1>
+    <form action="/profile/edit" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" required>
+      </div>
+      <div class="mb-3">
+        <label for="profilePic" class="form-label">Profile Picture:</label>
+        <input type="file" class="form-control" id="profilePic" name="profilePic">
+      </div>
+      <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+      </div>
+      <a href="/profile" class="btn btn-secondary">Cancel</a>
+    </form>
+  <% } else { %>
+    <h1 class="mb-4">Your Profile</h1>
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="<%= user.profilePic %>" alt="Profile Picture" class="img-fluid rounded-start">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title"><%= user.name %></h5>
+            <p class="card-text"><%= user.email %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="/profile/edit" class="btn btn-primary me-2">Edit Profile</a>
+    <form action="/profile/delete" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete your account?');">
+      <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
+  <% } %>
+</div>

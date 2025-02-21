@@ -1,0 +1,22 @@
+<%- include('header', { title: 'New Post' }) %>
+
+<div class="container my-5">
+  <h1 class="mb-4">Create New Post</h1>
+  <form action="/posts" method="POST">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title:</label>
+      <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="mb-3">
+      <label for="content" class="form-label">Content:</label>
+      <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="tags" class="form-label">Tags (comma-separated):</label>
+      <input type="text" class="form-control" id="tags" name="tags">
+    </div>
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary">Create Post</button>
+    </div>
+  </form>
+</div>

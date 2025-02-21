@@ -1,0 +1,57 @@
+<%- include('header', { title: post.title }) %>
+
+<div class="container my-5">
+  <h1 class="mb-4"><%= post.title %></h1>
+  <p class="text-muted">By <%= post.author.name %> on <%= post.createdAt.toDateString() %></p>
+  <div class="mb-4">
+    <p><%= post.content %></p>
+  </div>
+  <% if (post.tags && post.tags.length > 0) { %>
+    <p><strong>Tags:</strong> <%= post.tags.join(', ') %></p>
+  <% } %>
+
+  <% if (user && user.role === 'admin') { %>
+    <form action="/admin/posts/<%= post._id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+      <button type="submit" class="btn btn-danger">Delete Post</button>
+    </form>
+  <% } %>
+
+  <hr>
+
+  <h3>Comments</h3>
+  <% if (post.comments && post.comments.length > 0) { %>
+    <% if (user && user.role === 'admin') { %>
+      <form action="/admin/comments/bulk-delete" method="POST">
+        <ul class="list-group mb-4">
+          <% post.comments.forEach(function(comment) { %>
+            <li class="list-group-item">
+              <input type="checkbox" name="commentIds" value="<%= comment._id %>">
+              <strong><%= comment.author.name %>:</strong> <%= comment.content %>
+            </li>
+          <% }); %>
+        </ul>
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete selected comments?');">Delete Selected Comments</button>
+      </form>
+    <% } else { %>
+      <ul class="list-group mb-4">
+        <% post.comments.forEach(function(comment) { %>
+          <li class="list-group-item">
+            <p><strong><%= comment.author.name %>:</strong> <%= comment.content %></p>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
+  <% } else { %>
+    <p>No comments yet.</p>
+  <% } %>
+
+  <form action="/posts/<%= post._id %>/comments" method="POST" class="mb-4">
+    <div class="mb-3">
+      <label for="content" class="form-label">Add a Comment:</label>
+      <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Comment</button>
+  </form>
+
+  <a href="/posts" class="btn btn-link mt-3">Back to Posts List</a>
+</div>

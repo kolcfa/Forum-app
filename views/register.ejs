@@ -1,0 +1,51 @@
+<%- include('header', { title: 'Register' }) %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="mb-4 text-center">Register</h1>
+      <form action="/register" method="POST" id="registerForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name:</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+          <small class="text-danger" id="passwordError"></small>
+        </div>
+        <div class="mb-3">
+          <label for="role" class="form-label">Role:</label>
+          <select id="role" name="role" class="form-select">
+            <option value="user" selected>User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("registerForm").addEventListener("submit", function(event) {
+    const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      alert("Invalid email format.");
+      event.preventDefault();
+    }
+
+    if (password.length < 6) {
+      document.getElementById("passwordError").textContent = "Password must be at least 6 characters.";
+      event.preventDefault();
+    }
+  });
+</script>

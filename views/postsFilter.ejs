@@ -1,0 +1,35 @@
+<%- include('header', { title: 'Advanced Filtering' }) %>
+
+<div class="container my-5">
+  <h1 class="mb-4">Advanced Filtering</h1>
+  <form action="/posts/filter" method="POST" class="mb-4">
+    <div class="row">
+      <div class="col-md-5">
+        <label for="keyword" class="form-label">Search Keyword:</label>
+        <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Title or content">
+      </div>
+      <div class="col-md-5">
+        <label for="tag" class="form-label">Tag:</label>
+        <input type="text" class="form-control" id="tag" name="tag" placeholder="Exact tag">
+      </div>
+      <div class="col-md-2 align-self-end">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+      </div>
+    </div>
+  </form>
+
+  <% if (posts.length > 0) { %>
+    <h2>Filtered Posts</h2>
+    <ul class="list-group">
+      <% posts.forEach(function(post) { %>
+        <li class="list-group-item">
+          <a href="/posts/<%= post._id %>"><strong><%= post.title %></strong></a>
+          <br>
+          <small>By <%= post.author.name %> on <%= post.createdAt.toDateString() %></small>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No posts found with the given filters.</p>
+  <% } %>
+</div>
